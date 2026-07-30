@@ -50,6 +50,19 @@
     return films;
   }
 
+  async function fetchPosterUrl(filmLink) {
+    try {
+      const url = new URL(filmLink, window.location.origin).href;
+      const response = await fetch(url, { credentials: 'include' });
+      const html = await response.text();
+      const match = html.match(/<meta property="og:image" content="([^"]+)"/);
+      return match ? match[1] : null;
+    } catch (err) {
+      console.error('[Letterboxd Random Picker] failed to fetch poster', err);
+      return null;
+    }
+  }
+
   // --- UI ---
 
   let cachedFilms = null;
@@ -66,6 +79,7 @@
     <div id="lbx-picker-card">
       <button id="lbx-picker-close" type="button" aria-label="Close">&times;</button>
       <p id="lbx-picker-status"></p>
+      <img id="lbx-picker-poster" alt="" hidden />
       <h2 id="lbx-picker-title"></h2>
       <a id="lbx-picker-link" target="_blank" rel="noopener"></a>
       <div id="lbx-picker-actions">
@@ -76,6 +90,7 @@
   document.body.appendChild(overlay);
 
   const statusEl = overlay.querySelector('#lbx-picker-status');
+  const posterEl = overlay.querySelector('#lbx-picker-poster');
   const titleEl = overlay.querySelector('#lbx-picker-title');
   const linkEl = overlay.querySelector('#lbx-picker-link');
   const rerollBtn = overlay.querySelector('#lbx-picker-reroll');
@@ -89,13 +104,27 @@
     overlay.classList.remove('lbx-visible');
   }
 
-  function pickRandomFilm() {
+  let pickToken = 0;
+
+  async function pickRandomFilm() {
     if (!cachedFilms || cachedFilms.length === 0) return;
     const film = cachedFilms[Math.floor(Math.random() * cachedFilms.length)];
+    const token = ++pickToken;
+
     statusEl.textContent = `Picked from ${cachedFilms.length} films`;
     titleEl.textContent = film.name;
     linkEl.textContent = 'Open on Letterboxd →';
     linkEl.href = new URL(film.link, window.location.origin).href;
+    posterEl.hidden = true;
+    posterEl.removeAttribute('src');
+
+    const posterUrl = await fetchPosterUrl(film.link);
+    if (token !== pickToken) return; // a newer pick has since happened
+
+    if (posterUrl) {
+      posterEl.src = posterUrl;
+      posterEl.hidden = false;
+    }
   }
 
   async function handlePickClick() {
