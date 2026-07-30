@@ -1,0 +1,115 @@
+#lbx-picker-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 999px;
+  background: #00e054;
+  color: #14181c;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#lbx-picker-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+#lbx-picker-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+#lbx-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+#lbx-picker-overlay.lbx-visible {
+  display: flex;
+}
+
+#lbx-picker-card {
+  position: relative;
+  width: min(90vw, 420px);
+  padding: 32px 28px 28px;
+  border-radius: 12px;
+  background: #14181c;
+  color: #ffffff;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+#lbx-picker-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: none;
+  background: none;
+  color: #9ab;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#lbx-picker-close:hover {
+  color: #ffffff;
+}
+
+#lbx-picker-status {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #9ab;
+  min-height: 16px;
+}
+
+#lbx-picker-title {
+  margin: 0 0 16px;
+  font-size: 22px;
+  line-height: 1.3;
+  min-height: 28px;
+}
+
+#lbx-picker-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #40bcf4;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+#lbx-picker-link:hover {
+  text-decoration: underline;
+}
+
+#lbx-picker-actions {
+  display: flex;
+  justify-content: center;
+}
+
+#lbx-picker-reroll {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  background: #00e054;
+  color: #14181c;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#lbx-picker-reroll:hover {
+  filter: brightness(1.05);
+}
